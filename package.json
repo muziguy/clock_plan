@@ -1,0 +1,11 @@
+{
+  "name": "wxminiprogram-focus-clock-master",
+  "version": "1.0.0",
+  "description": "<h2 align=center>微信小程序：XFocus · 专注时钟</h2> <h4 align=center>WXminiprogram - XFocus （更新至 V-1.2.2）</h4>",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

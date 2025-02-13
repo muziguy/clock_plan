@@ -1,0 +1,87 @@
+<view class="container timer {{isRuning ? 'timer--runing': ''}}">
+  <view wx:if="{{!isRuning}}" class="btn-view">
+    <!-- 四个按钮 -->
+    <button bindtap="changeContent" data-content="content1" class="{{currentContent === 'content1' ? 'selected' : ''}}">
+      <view class="button-content">
+        <image src="{{isSelected ? '/image/icon1.png' : '/image/icon1_2.png'}}" class="icon"/> <!-- 图标1 -->
+        <text>多人专注</text>
+      </view>
+    </button>
+    
+    <button bindtap="changeContent" data-content="content2" class="{{currentContent === 'content2' ? 'selected' : ''}}">
+      <view class="button-content">
+        <image src="{{isSelected ? '/image/icon2.png' : '/image/icon2_2.png'}}" class="icon"/> <!-- 图标2 -->
+        <text>强制锁机</text>
+      </view>
+    </button>
+    
+    <button bindtap="changeContent" data-content="content3" class="{{currentContent === 'content3' ? 'selected' : ''}}">
+      <view class="button-content">
+        <image src="{{isSelected ? '/image/icon3.png' : '/image/icon3_2.png'}}" class="icon"/> <!-- 图标3 -->
+        <text>趣味沉浸</text>
+      </view>
+    </button>
+    
+    <button bindtap="changeContent" data-content="content4" class="{{currentContent === 'content4' ? 'selected' : ''}}">
+      <view class="button-content">
+        <image src="{{isSelected ? '/image/icon4.png' : '/image/icon4_2.png'}}" class="icon"/> <!-- 图标4 -->
+        <text>时钟沉浸</text>
+      </view>
+    </button>
+  </view>
+
+  <!-- 根据选择的内容切换显示区域 -->
+  <view wx:if="{{currentContent === 'content1'}}" class="content">
+    <view class="timer_main">
+		 <view class="timer_time-wrap">
+		 		<view class="timer_progress_mask"></view>
+		 		<view class="timer_progress timer_left">
+		 			<view class="timer_circle timer_circle--left" style="transform: rotate({{leftDeg}}deg);"></view>
+		 		</view>
+		 		<view class="timer_progress timer_right">
+		 			<view class="timer_circle timer_circle--right" style="transform: rotate({{rightDeg}}deg);"></view>
+		 		</view>
+			 	<text wx:if="{{!completed}}" class="timer_time">{{remainTimeText}}</text>
+			 	<text 
+			 		wx:if="{{isRuning}}" 
+			 		animation="{{nameAnimation}}" 
+			 		class="timer_taskName">{{taskName}}{{completed ? '已完成！' : '中'}}</text>
+		 		<image 
+		 			wx:if="{{completed}}" 
+		 			class="timer_done" 
+		 			src="../../image/complete.png"></image>
+		 </view>
+		 <input 
+		 	type="text" 
+		 	placeholder-style="text-align:center" 
+		 	class="timer_inputname" 
+		 	bindinput="changeLogName"
+		 	placeholder="自定义任务名"
+			 placeholder-style="color:#bfbfbf"/>
+	</view>
+	
+	<view class="timer_footer">
+	  <view 
+	  	bindtap="startTimer" 
+	  	data-type="work" 
+	  	class="timer_ctrl {{isRuning && timerType == 'rest' ? 'hide' : ''}}">
+			{{isRuning ? '退出': '工作'}}
+			</view>
+
+	  <view 
+	  	bindtap="startTimer" 
+	  	data-type="rest" 
+	  	class="timer_ctrl_2 {{isRuning && timerType == 'work' ? 'hide' : ''}}" >
+			{{isRuning ? '退出': '休息 '}} </view>
+	</view>
+  </view>
+  <view wx:if="{{currentContent === 'content2'}}" class="content">
+    <text>这是内容2</text>
+  </view>
+  <view wx:if="{{currentContent === 'content3'}}" class="content">
+    <text>这是内容3</text>
+  </view>
+  <view wx:if="{{currentContent === 'content4'}}" class="content">
+    <text>这是内容4</text>
+  </view>
+</view>

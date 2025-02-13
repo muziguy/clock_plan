@@ -1,0 +1,286 @@
+/* 容器样式 */
+.container {
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+/* 年份选择样式 */
+.year-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.prev-year-btn, .next-year-btn {
+  background: transparent; /* 去掉背景 */
+  border: none; /* 去掉边框 */
+  padding: 0; /* 去掉内边距 */
+  box-shadow: none; /* 去掉阴影 */
+  display: inline-flex; /* 使按钮成为内联块级元素 */
+  align-items: center; /* 垂直居中内容 */
+  justify-content: center; /* 水平居中内容 */
+  border-radius: 0; /* 去掉圆角 */
+  cursor: pointer;
+}
+
+.year-selector text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 月份选择样式 */
+.month-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.prev-btn, .next-btn {
+  background: transparent; /* 去掉背景 */
+  border: none; /* 去掉边框 */
+  padding: 0; /* 去掉内边距 */
+  box-shadow: none; /* 去掉阴影 */
+  display: inline-flex; /* 使按钮成为内联块级元素 */
+  align-items: center; /* 垂直居中内容 */
+  justify-content: center; /* 水平居中内容 */
+  border-radius: 0; /* 去掉圆角 */
+}
+
+.month-selector text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 星期标签样式 */
+.week-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 10px;
+}
+
+.week-day {
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* 日历网格 */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* 每个日期单元格 */
+.day-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  height: 50px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.day-cell:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+/* 当前日期的样式 */
+.today {
+  background-color: #ffcc00;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+/* 选中日期的样式 */
+.selected {
+  background-color: #007bff; /* 蓝色背景 */
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+/* 日期文字 */
+.day-text {
+  font-size: 16px;
+  color: #333;
+}
+
+.day-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh; /* 为每行间隔设置一些空间 */
+}
+
+.section-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2vh; /* 上下两行的间隔 */
+}
+
+.section {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.7); /* 可选：设置一个半透明背景，使文字更易读取 */
+  padding: 2vh;
+  border-radius: 8px;
+  height: 35vh; /* 固定高度 */
+  overflow: hidden; /* 隐藏滚动条 */
+  position: relative;
+  background-size: cover; /* 让背景图片自适应容器 */
+  background-position: top; /* 确保背景居中 */
+}
+
+/* 隐藏滚动条 */
+.section::-webkit-scrollbar {
+  display: none;
+}
+
+/* 保持可滚动 */
+.section {
+  -ms-overflow-style: none;  /* IE 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.task-list {
+  height: 100%; /* 使任务列表填满父容器 */
+  overflow: auto; /* 使任务列表可以滚动 */
+  -ms-overflow-style: none;  /* 隐藏 IE 中的滚动条 */
+  scrollbar-width: none;  /* 隐藏 Firefox 中的滚动条 */
+}
+
+.task-list::-webkit-scrollbar {
+  display: none; /* 隐藏 Chrome/Safari 中的滚动条 */
+}
+
+.task-item {
+  margin-bottom: 8px;
+}
+
+.task-item text {
+  display: block;
+  margin: 5px 0;
+}
+
+/* 弹窗 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  width: 80%;
+  max-width: 400px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-body {
+  margin-top: 10px;
+}
+
+.modal-task-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* 遮罩层样式 */
+.modalTimeOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);  /* 半透明黑色背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;  /* 确保遮罩层在最上层 */
+}
+
+/* 弹窗样式 */
+.modalTime {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 80%;  /* 弹窗宽度 */
+  max-width: 600px;  /* 最大宽度 */
+}
+
+/* picker 样式 */
+.picker {
+  margin-bottom: 10px;
+}
+
+/* 按钮样式 */
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007aff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #005bb5;
+}
+
+/* 切换按钮样式 */
+.toggle-button {
+  display: flex;
+  flex-direction: column;  /* 设置元素垂直排列 */
+  margin: 0;
+  padding: 0;
+  height: 15px;
+  text-align: center;
+  cursor: pointer;
+  color: #1296db;
+}
+
+.image {
+  margin: 0;
+  padding: 0;
+}
+
+.line1 {
+  border-bottom: 1px solid #1296db;  /* 设定线条的颜色和厚度 */
+  margin: 0;
+  padding: 0;
+  height: 0; /* 如果 line2 是空的或不需要高度，确保它没有额外的空间 */
+}
+
+.line2 {
+  border-top: 1px solid #1296db;  /* 设定线条的颜色和厚度 */
+  margin: 0;
+  padding: 0;
+  height: 0; /* 如果 line2 是空的或不需要高度，确保它没有额外的空间 */
+}
+
+
+

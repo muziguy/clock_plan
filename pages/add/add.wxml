@@ -1,0 +1,203 @@
+<view class="container" bindtouchstart="onTouchStart" bindtouchend="onTouchEnd">
+  <!-- 年份和月份选择 -->
+  <view class="month-selector">
+    <view class="prev-year-btn" bindtap="onPrevYear">
+      <image src="/image/preyear.png" style="width: 24px; height: 24px;"></image>
+    </view>
+    <view class="prev-btn" bindtap="onPrevMonth">
+      <image src="/image/preyear.png" style="width: 24px; height: 24px;"></image>
+    </view>
+    <text>{{currentMonth}}</text>
+    <view class="next-btn" bindtap="onNextMonth">
+      <image src="/image/nextyear.png" style="width: 24px; height: 24px;"></image>
+    </view>
+    <view class="next-year-btn" bindtap="onNextYear">
+      <image src="/image/nextyear.png" style="width: 24px; height: 24px;"></image>
+    </view>
+  </view>
+
+  <!-- 星期标签 -->
+  <view class="week-days">
+    <view class="week-day">周六</view>
+    <view class="week-day">周日</view>
+    <view class="week-day">周一</view>
+    <view class="week-day">周二</view>
+    <view class="week-day">周三</view>
+    <view class="week-day">周四</view>
+    <view class="week-day">周五</view>
+  </view>
+
+  <!-- 日历显示{{!showFullCalendar ? filteredDays : days}} -->
+  <view class="calendar-grid">
+    <view class="calendar-day" wx:for="{{!showFullCalendar ? currentPeriod : adjustDays}}" wx:key="index" bindtap="onDayClick" data-day="{{item}}" 
+      class="{{currentMonth + item + '日' === selectedDate ? 'day-cell selected' : currentMonth + item + '日' === todayDate ? 'day-cell today' : 'day-cell'}}">
+      <view class="day-text">{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 切换展开/折叠按钮 -->
+  <view class="toggle-button" bindtap="toggleCalendar" style="{{!showFullCalendar ? '' : 'height: 15px; border-bottom: 1px solid;'}}">
+    <!-- 添加一个div作为线条 -->
+    <view wx:if="{{!showFullCalendar}}">
+      <view class="line2"></view>
+      <image class="image" src="/image/expand-icon.png" style="width: 60px; height: 15px;"></image>
+    </view>
+    <view wx:elif="{{showFullCalendar}}">
+      <image class="image2" src="/image/collapse-icon.png" style="width: 60px; height: 15px;"></image>
+    </view>
+  </view>
+
+  <!-- 选择的日期信息展示 -->
+  <view style="display: grid; grid-template-columns: repeat(2, 1fr);margin-bottom: 2vh;">
+    <view style="display: grid; grid-template-columns: 1fr 5fr;">
+      <image src="/image/biaoqian.png" style="width: 24px; height: 24px;display: inline-block;"></image>
+      <view wx:if="{{selectedDate}}">{{selectedDate}}</view>
+      <view wx:else>{{currentMonth + today + '日'}}</view>
+    </view>
+    <view style="margin-left: auto;display: grid; grid-template-columns: 1fr 1.3fr;">
+      <image src="/image/xianxian.png" style="width: 24px; height: 24px;display: inline-block;"></image>
+      <view>四象限</view>
+    </view>
+  </view>
+  <view class="day-info">
+  <view class="section-container">
+    <!-- 上面两个 -->
+    <view class="section" bindtap="onEditPlan" data-section="task1">
+      <view style="margin:auto; text-align: center; width: 20vh;display: grid; grid-template-columns: 1fr 1.2fr 1fr;">
+        <view style="margin-left: auto;"><image src="/image/plan.png" style="width: 24px; height: 24px;"></image></view>
+        <view style="margin: 0;padding: 0;">轻计划</view>
+        <image src="/image/plan.png" style="width: 24px; height: 24px;"></image>
+      </view>
+      <view class="task-list">
+        <block wx:for="{{tasks['task1']}}" wx:key="index">
+          <view class="task-item">
+            <view style="display: grid; grid-template-columns: 1fr 7fr;">
+              <image src="/image/xianzhi.png" style="width: 24px; height: 24px;"></image>
+              <view style="text-align: center;">{{item.content}}</view>
+            </view>
+            <text>{{item.startDate}} {{item.startTime}}-{{item.endDate}} {{item.endTime}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="section" bindtap="onEditPlan" data-section="task2">
+      <view style="margin:auto; text-align: center; width: 20vh;display: grid; grid-template-columns: 1fr 1.2fr 1fr;">
+        <view style="margin-left: auto;"><image src="/image/plan.png" style="width: 24px; height: 24px;"></image></view>
+        <view style="margin: 0;padding: 0;">重计划</view>
+        <image src="/image/plan.png" style="width: 24px; height: 24px;"></image>
+      </view>
+      <view class="task-list">
+        <block wx:for="{{tasks['task2']}}" wx:key="index">
+          <view class="task-item">
+            <view style="display: grid; grid-template-columns: 1fr 7fr;">
+              <image src="/image/xianzhi.png" style="width: 24px; height: 24px;"></image>
+              <view style="text-align: center;">{{item.content}}</view>
+            </view>
+            <text>{{item.startDate}} {{item.startTime}}-{{item.endDate}} {{item.endTime}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-container">
+    <!-- 下面两个 -->
+    <view class="section" bindtap="onEditPlan" data-section="task3">
+      <view style="margin:auto; text-align: center; width: 20vh;display: grid; grid-template-columns: 1fr 1.2fr 1fr;">
+        <view style="margin-left: auto;"><image src="/image/plan.png" style="width: 24px; height: 24px;"></image></view>
+        <view style="margin: 0;padding: 0;">缓计划</view>
+        <image src="/image/plan.png" style="width: 24px; height: 24px;"></image>
+      </view>
+      <view class="task-list">
+        <block wx:for="{{tasks['task3']}}" wx:key="index">
+          <view class="task-item">
+            <view style="display: grid; grid-template-columns: 1fr 7fr;">
+              <image src="/image/xianzhi.png" style="width: 24px; height: 24px;"></image>
+              <view style="text-align: center;">{{item.content}}</view>
+            </view>
+            <text>{{item.startDate}} {{item.startTime}}-{{item.endDate}} {{item.endTime}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="section" bindtap="onEditPlan" data-section="task4">
+      <view style="margin:auto; text-align: center; width: 20vh;display: grid; grid-template-columns: 1fr 1.2fr 1fr;">
+        <view style="margin-left: auto;"><image src="/image/plan.png" style="width: 24px; height: 24px;"></image></view>
+        <view style="margin: 0;padding: 0;">急计划</view>
+        <image src="/image/plan.png" style="width: 24px; height: 24px;"></image>
+      </view>
+      <view class="task-list">
+        <block wx:for="{{tasks['task4']}}" wx:key="index">
+          <view class="task-item">
+            <view style="display: grid; grid-template-columns: 1fr 7fr;">
+              <image src="/image/xianzhi.png" style="width: 24px; height: 24px;"></image>
+              <view style="text-align: center;">{{item.content}}</view>
+            </view>
+            <text>{{item.startDate}} {{item.startTime}}-{{item.endDate}} {{item.endTime}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>
+
+  <!-- 弹窗 -->
+  <view wx:if="{{isModalVisible}}" class="modal">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text>{{currentSection}}的计划</text>
+        <button bindtap="closeModal">关闭</button>
+      </view>
+      <view class="modal-body">
+        <view wx:for="{{tasks[currentSection]}}" wx:key="index">
+          <view class="modal-task-item">
+            <text>{{item.content}} ({{item.startDate}}-{{item.endDate}})</text>
+            <button bindtap="deleteTask" data-index="{{index}}">删除</button>
+          </view>
+        </view>
+        <button bindtap="addNewTask">新增计划</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{isModalTimeVisible}}" class="modalTimeOverlay">
+    <!-- 弹窗内容 -->
+    <view class="modalTime">
+      <!-- 选择开始日期 -->
+      <picker mode="date" value="{{startDate}}" start="2020-01-01" end="2030-12-31" bindchange="onStartDateChange">
+        <view class="picker">
+          Start Date: {{startDate}}
+        </view>
+      </picker>
+
+      <!-- 选择开始时间 -->
+      <picker mode="time" value="{{startTime}}" bindchange="onStartTimeChange">
+        <view class="picker">
+          Start Time: {{startTime}}
+        </view>
+      </picker>
+
+      <!-- 选择结束日期 -->
+      <picker mode="date" value="{{endDate}}" start="2020-01-01" end="2030-12-31" bindchange="onEndDateChange">
+        <view class="picker">
+          End Date: {{endDate}}
+        </view>
+      </picker>
+
+      <!-- 选择结束时间 -->
+      <picker mode="time" value="{{endTime}}" bindchange="onEndTimeChange">
+        <view class="picker">
+          End Time: {{endTime}}
+        </view>
+      </picker>
+
+      <!-- 确认按钮 -->
+      <button bindtap="confirmSelection">Confirm</button>
+
+      <!-- 关闭按钮 -->
+      <button bindtap="closeModalTime">Close</button>
+    </view>
+  </view>
+</view>
