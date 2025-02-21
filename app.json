@@ -1,0 +1,70 @@
+{
+  "useExtendedLib": {
+    "weui": true
+  },
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/add/add",
+    "pages/setting/setting",
+    "pages/setting/rank/rank",
+    "pages/setting/setmore/setmore",
+    "pages/about/about",
+    "pages/more/more",
+    "pages/todos/todos",
+    "pages/poster/poster",
+    "pages/version/version",
+    "pages/memo/new-memo/new-memo",
+    "pages/memo/edit-memo/edit-memo"
+  ], 
+  "requiredBackgroundModes": ["audio","location"],
+
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#EDEDED",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black"
+   }, 
+  "tabBar": {
+    "color": "#cdcdcd",
+    "selectedColor": "#000000",
+    "borderStyle": "black",
+    "backgroundColor": "#f7f7f7",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "image/yu.png",
+        "selectedIconPath": "image/yu2.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/todos/todos",
+        "iconPath": "image/todo.png",
+        "selectedIconPath": "image/todo2.png",
+        "text": "待办"
+      },   
+      {
+        "pagePath": "pages/add/add",
+        "iconPath": "image/add.png",
+        "selectedIconPath": "image/add2.png"
+      },  
+      {
+        "pagePath": "pages/logs/logs",
+        "iconPath": "image/jilu.png",
+        "selectedIconPath": "image/jilu2.png",
+        "text": "记录"
+      },
+      {
+        "pagePath": "pages/setting/setting",
+        "iconPath": "image/shezhi.png",
+        "selectedIconPath": "image/shezhi2.png",
+        "text": "我"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {
+    "calendar": "/component/calendar/index"
+  },
+  "lazyCodeLoading": "requiredComponents"
+}
