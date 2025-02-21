@@ -1,5 +1,13 @@
+import lottie from 'lottie-miniprogram'
+
 Page({
   data: {
+    animationData_date: {},
+    lastSelectedDate: "", // 上次选中的日期
+    animationData_close: {},
+    animationStarted: false,  // 控制动画是否开始的状态
+    clicked: false,  // 新增的控制动画的状态
+    animationData: {},
     todayDate: "2025年2月11日",
     currentMonth: "2025年2月", // 当前月份
     currentYear: "2025年", // 当前年份
@@ -16,6 +24,7 @@ Page({
       "task3": [],
       "task4": []
     },
+    all_tasks: {},
     newTaskContent: '', // 输入框内容
     isModalVisible: false,
     currentSection: "", // 当前操作的计划板块
@@ -32,8 +41,94 @@ Page({
     adjustDays: [],
   },
 
+  onShow() {
+    // 页面切换完成后再执行
+    this.setData({ animationStarted: true });
+    setTimeout(() => {
+      if (this.data.animationStarted) {
+        this.loadAnimation()
+      }
+    }, 1000);
+  },
+
+  loadAnimation: function() {
+    wx.createSelectorQuery().selectAll('#c1').node(res => {
+      const canvas = res[0].node
+      const context = canvas.getContext('2d')
+
+      canvas.width = 300
+      canvas.height = 300
+
+      lottie.setup(canvas)
+      this.ani = lottie.loadAnimation({
+        loop: true,
+        autoplay: true,
+        animationData: require('../../json/car-loading3-data.js'),
+        rendererSettings: {
+          context,
+        },
+      })
+      this._inited = true
+    }).exec()
+    wx.createSelectorQuery().selectAll('#c2').node(res => {
+      const canvas = res[0].node
+      const context = canvas.getContext('2d')
+
+      canvas.width = 300
+      canvas.height = 300
+
+      lottie.setup(canvas)
+      this.ani = lottie.loadAnimation({
+        loop: true,
+        autoplay: true,
+        animationData: require('../../json/car-loading6-data.js'),
+        rendererSettings: {
+          context,
+        },
+      })
+      this._inited = true
+    }).exec()
+    wx.createSelectorQuery().selectAll('#c3').node(res => {
+      const canvas = res[0].node
+      const context = canvas.getContext('2d')
+
+      canvas.width = 300
+      canvas.height = 300
+
+      lottie.setup(canvas)
+      this.ani = lottie.loadAnimation({
+        loop: true,
+        autoplay: true,
+        animationData: require('../../json/car-loading4-data.js'),
+        rendererSettings: {
+          context,
+        },
+      })
+      this._inited = true
+    }).exec()
+    wx.createSelectorQuery().selectAll('#c4').node(res => {
+      const canvas = res[0].node
+      const context = canvas.getContext('2d')
+
+      canvas.width = 300
+      canvas.height = 300
+
+      lottie.setup(canvas)
+      this.ani = lottie.loadAnimation({
+        loop: true,
+        autoplay: true,
+        animationData: require('../../json/car-loading5-data.js'),
+        rendererSettings: {
+          context,
+        },
+      })
+      this._inited = true
+    }).exec()
+  },
+
   onLoad() {
     const tasks = wx.getStorageSync('tasks') || {};  // 获取缓存中的任务数据，如果没有则使用空对象
+    const all_tasksData = wx.getStorageSync('all_tasks') || {};
     this.getCurrentMonth();
     this.generateCalendar();
     // 获取当前日期
@@ -50,6 +145,7 @@ Page({
       currentYear: `${year}年`, // 设置当前显示的年份
       currentMonth: `${year}年${month}月`, // 设置当前显示的年月
       tasks,
+      all_tasks: all_tasksData,
     });
     this.updateCalendar();
     // 处理 days 数组，去除 null，并截取前 7 天
@@ -58,6 +154,26 @@ Page({
       filteredDays: filteredDays, // 将处理后的数据存储到 data 中
     });
     this.setSelectedPeriod(0);  // 设置默认选中的周期
+    let originalDate = this.data.selectedDate;
+
+    // 使用正则表达式来提取年、月、日
+    let match = originalDate.match(/^(\d{4})年(\d{1,2})月(\d{1,2})日$/);
+
+    if (match) {
+      // 通过正则匹配的结果来重构日期为 "YYYY-MM-DD" 格式
+      let year = match[1];
+      let month = match[2].padStart(2, '0'); // 确保月份是两位数
+      let day = match[3].padStart(2, '0');   // 确保日期是两位数
+      
+      // 生成目标格式
+      let formattedDate = `${year}-${month}-${day}`;
+      this.setData({
+        startDate: formattedDate,
+        endDate: formattedDate
+      });
+    } else {
+      console.log("日期格式不匹配");
+    }
   },
 
   // 设置当前周期（7天一周期）
@@ -376,8 +492,12 @@ Page({
   // 切换日历展开/折叠
   toggleCalendar() {
     this.setData({
-      showFullCalendar: !this.data.showFullCalendar
+      showFullCalendar: !this.data.showFullCalendar,
     });
+    if (!this.data.showFullCalendar) {
+      this.setData({ animationStarted: true });
+      this.loadAnimation()
+    }
   },
 
   // 切换到上一年
@@ -460,27 +580,171 @@ Page({
 
   // 处理点击日期事件
   onDayClick(e) {
+    const tasks = wx.getStorageSync('tasks') || {};  // 获取缓存中的任务数据，如果没有则使用空对象
+    const all_tasks = wx.getStorageSync('all_tasks') || {};
+    console.log("all_tasks1111",all_tasks)
+    this.setData({
+      tasks,
+      all_tasks
+    })
     const day = e.currentTarget.dataset.day;
+    const newSelectedDate = e.currentTarget.dataset.day;  // 获取选中的日期
+    const lastSelectedDate = this.data.selectedDate;  // 获取上次选中的日期
+    console.log("new1111111:",newSelectedDate)
+    // 如果选中的日期和上次日期不同，才触发切换效果
+    if (newSelectedDate !== lastSelectedDate) {
+      this.setData({
+        lastSelectedDate: lastSelectedDate,  // 更新上次选中的日期
+        selectedDate: this.data.currentMonth + newSelectedDate + "日", // 更新选中的日期
+      });
+
+      // 创建动画实例
+      const animation = wx.createAnimation({
+        duration: 500,  // 动画的持续时间，稍后会根据差值来动态修改
+        timingFunction: 'ease-in-out',  // 动画缓动效果
+      });
+
+      // 计算日期差值，决定切换的次数
+      const dateDiff = this.calculateDateDifference(lastSelectedDate, newSelectedDate);
+
+      // 根据日期差值来设置切换的次数
+      const switchTimes = Math.abs(dateDiff);  // 切换的次数，取差值的绝对值
+
+      // 动画开始前清除当前动画
+      animation.translateX(0).step();
+
+      // 按照日期差异的天数进行循环切换
+      for (let i = 0; i < switchTimes; i++) {
+        // 判断切换的方向
+        if (dateDiff > 0) {
+          // 向右切换
+          animation.translateX('100%').step();
+        } else {
+          // 向左切换
+          animation.translateX('-100%').step();
+        }
+        // 动画返回
+        animation.translateX(0).step();
+      }
+
+      // 更新动画数据
+      this.setData({
+        animationData_date: animation.export(),
+      });
+    }
+    console.log("this.data.selectedDate",this.data.selectedDate)
+    console.log(this.data.all_tasks[this.data.selectedDate])
+
     this.setData({
       selectedDate: `${this.data.currentMonth}${day}日`,
-      dayInfo: `你选择的日期是：${day}号。`
+      dayInfo: `你选择的日期是：${day}号。`,
+      tasks: this.data.all_tasks[this.data.selectedDate] || {}
     });
+    console.log(this.data.selectedDate, this.data.tasks);
+    // 使用正则表达式来提取年、月、日
+    let match = this.data.selectedDate.match(/^(\d{4})年(\d{1,2})月(\d{1,2})日$/);
+
+    if (match) {
+      // 通过正则匹配的结果来重构日期为 "YYYY-MM-DD" 格式
+      let year = match[1];
+      let month = match[2].padStart(2, '0'); // 确保月份是两位数
+      let day = match[3].padStart(2, '0');   // 确保日期是两位数
+      
+      // 生成目标格式
+      let formattedDate = `${year}-${month}-${day}`;
+      this.setData({
+        startDate: formattedDate,
+        endDate: formattedDate,
+      });
+    } else {
+      console.log("日期格式不匹配");
+    }
+    console.log("tasks", this.data.tasks)
+  },
+
+  // 计算日期差异（天数差）
+  calculateDateDifference: function(lastDate, newDate) {
+    const lastDateObj = new Date(lastDate);
+    const newDateObj = new Date(newDate);
+    const timeDiff = newDateObj - lastDateObj;  // 时间差（毫秒）
+    return timeDiff / (1000 * 3600 * 24);  // 转换为天数
   },
 
   // 点击编辑计划时，弹出弹窗
   onEditPlan(e) {
+    // 创建一个动画实例
+    const animation = wx.createAnimation({
+      duration: 200, // 动画持续时间
+      timingFunction: 'ease',
+    });
+
     const section = e.currentTarget.dataset.section;
+    if (section === 'task1') {
+      animation.scale(0.95).translateY(5).step();  // task1 动画效果
+    } else if (section === 'task2') {
+      animation.rotate(45).scale(1.1).step();  // task2 动画效果
+    } else if (section === 'task3') {
+      animation.scale(1.1).translateX(5).step();  // task3 动画效果
+    } else if (section === 'task4') {
+      animation.scale(0.9).translateY(-5).step();  // task4 动画效果
+    }    
     this.setData({
       currentSection: section,
       isModalVisible: true,
+      animationData: animation.export(),
     });
+
+    // 让元素恢复原始状态
+    setTimeout(() => {
+      if (section === 'task1') {
+        // 还原 task1 动画状态
+        animation.scale(1).translateY(0).step();
+      } else if (section === 'task2') {
+        // 还原 task2 动画状态
+        animation.rotate(0).scale(1).step();
+      } else if (section === 'task3') {
+        // 还原 task3 动画状态
+        animation.scale(1).translateX(0).step();
+      } else if (section === 'task4') {
+        // 还原 task4 动画状态
+        animation.scale(1).translateY(0).step();
+      }
+      this.setData({
+        animationData: animation.export(),
+      });
+    }, 200); // 恢复时间延迟
   },
 
   // 关闭弹窗
   closeModal() {
-    this.setData({
-      isModalVisible: false
+    // 创建动画实例
+    const animation = wx.createAnimation({
+      duration: 300,  // 动画持续时间
+      timingFunction: 'ease-in-out',  // 动画的缓动效果
     });
+
+    // 设置动画效果：缩小并透明
+    animation.scale(0.5).opacity(0).step();
+    this.setData({
+      animationData_close: animation.export(),
+    });
+
+    // 动画结束后可进行其他操作（如关闭弹窗等）
+    setTimeout(() => {
+      // 创建一个还原动画实例
+      const restoreAnimation = wx.createAnimation({
+        duration: 300,  // 恢复动画的持续时间
+        timingFunction: 'ease-in-out',  // 恢复动画的缓动效果
+      });
+
+      // 还原到原来的大小和不透明
+      restoreAnimation.scale(1).opacity(1).step();
+      // 在这里处理动画结束后的逻辑，例如关闭模态框等
+      this.setData({
+        animationData_close: restoreAnimation.export(),
+        isModalVisible: false
+      })
+    }, 300); // 300ms后执行
   },
 
   // 关闭弹窗
@@ -505,25 +769,9 @@ Page({
           });
           const content = res.content;  // 获取用户输入
           if (content) {
-            const { startDate, startTime, endDate, endTime } = this.data;
-            const newTask = { content, startDate, startTime, endDate, endTime };
-            const tasks = this.data.tasks;
-            const section = this.data.currentSection;
-
-            // 确保 tasks[section] 存在且是一个数组，如果不存在则初始化为空数组
-            if (!tasks[section]) {
-              tasks[section] = [];  // 初始化为空数组
-            }
-
-            tasks[section].push(newTask);  // 添加新任务
-
-            // 更新任务数据到本地缓存
-            wx.setStorageSync('tasks', tasks);
-
             // 显示时间选择器
             this.setData({
               content: content,       // 存储任务内容
-              tasks,
             });
           } else {
             wx.showToast({
@@ -541,17 +789,22 @@ Page({
     const index = e.currentTarget.dataset.index;
     const section = this.data.currentSection;
     const tasks = this.data.tasks;
+    const all_tasks = this.data.all_tasks;
 
     // 确保 tasks[section] 存在且是一个数组
     if (tasks[section]) {
       tasks[section].splice(index, 1); // 删除指定索引的任务
     }
 
+    all_tasks[this.data.selectedDate] = tasks;
+
     // 更新任务数据到本地缓存
     wx.setStorageSync('tasks', tasks);
+    wx.setStorageSync('all_tasks', all_tasks);
 
     this.setData({
-      tasks
+      tasks,
+      all_tasks
     });
   },
 
@@ -585,11 +838,37 @@ Page({
 
   // 确认按钮，保存并关闭弹窗
   confirmSelection: function (event) {
+    const { startDate, startTime, endDate, endTime } = this.data;
+    const content = this.data.content;
+    const newTask = { content, startDate, startTime, endDate, endTime };
+    const tasks = this.data.tasks;
+    const section = this.data.currentSection;
+    const all_tasks = this.data.all_tasks; // 获取 all_tasks 数据
+
+    console.log(this.data);
+
+    // 确保 tasks[section] 存在且是一个数组，如果不存在则初始化为空数组
+    if (!tasks[section]) {
+      tasks[section] = [];  // 初始化为空数组
+    }
+
+    tasks[section].push(newTask);  // 添加新任务
+
+    console.log("all_tasks", all_tasks)
+    all_tasks[this.data.selectedDate] = tasks;
+    console.log('alltask',all_tasks)
+    // 更新任务数据到本地缓存
+    wx.setStorageSync('tasks', tasks);
+    wx.setStorageSync('all_tasks', all_tasks);  // 更新 all_tasks 数据到本地缓存
+
     // 关闭弹窗
     this.setData({
       isModalTimeVisible: false,
       isModalVisible: true,
+      tasks,
+      all_tasks: all_tasks,  // 更新 all_tasks
     });
+    console.log(this.data.all_tasks)
   },
 
   onInputChange: function (event) {

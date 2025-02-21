@@ -4,8 +4,10 @@ const defaultTime = {
   defaultRestTime: 5
 }
 
-
 App({
+  globalData: {
+    memoList: []
+  },
   onLaunch: function() {
     let workTime = wx.getStorageSync('workTime')
     let restTime = wx.getStorageSync('restTime')
@@ -22,7 +24,12 @@ App({
         data: defaultTime.defaultRestTime
       })
     }
-  }
+    // 初始化全局数据（例如从本地存储中读取）
+    const memoList = wx.getStorageSync('memoList') || [];
+    this.globalData.memoList = memoList;
+    console.log(this.globalData.memoList)
+  },
+
   // viblong: function(){
 
   //   var vibison = wx.getStorageSync('vibison')

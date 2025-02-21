@@ -1,0 +1,12 @@
+<view class="edit-memo-container">
+  <view class="edit-memo-header">
+    <text class="edit-memo-title">编辑备忘录</text>
+  </view>
+
+  <text class="edit-memo-title1">标题</text>
+  <view class="edit-memo-input"><input placeholder="请输入标题" bindinput="onTitleInput" value="{{title}}" /></view>
+  <text class="edit-memo-title1">内容</text>
+  <textarea class="edit-memo-textarea" placeholder="请输入内容" bindinput="onContentInput" value="{{content}}" />
+
+  <button class="edit-memo-save" bindtap="saveMemo">保存修改</button>
+</view>

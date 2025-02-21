@@ -1,6 +1,4 @@
-var util = require('../../utils/util.js')
 var wxCharts = require('../../utils/wxcharts.js')
-var app = getApp()
 var ringChart = null;
 var lognum=0;
 var worknum=0;

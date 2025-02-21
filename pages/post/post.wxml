@@ -1,0 +1,21 @@
+<view class="container">
+  <!-- 记录内容区域 -->
+  <view class="post-content">
+    <textarea placeholder="请输入文字..." bindinput="onTextInput" class="text-input"></textarea>
+
+    <!-- 记录图片 -->
+    <button bindtap="chooseImage">选择图片</button>
+    <view class="image-preview">
+      <block wx:for="{{images}}" wx:key="index">
+        <image src="{{item}}" mode="aspectFill" class="preview-image"></image>
+      </block>
+    </view>
+
+    <!-- 记录视频 -->
+    <button bindtap="chooseVideo">选择视频</button>
+    <video wx:if="{{video}}" src="{{video}}" controls class="video-preview"></video>
+
+    <!-- 记录按钮 -->
+    <button bindtap="publishPost" class="publish-button">保存</button>
+  </view>
+</view>

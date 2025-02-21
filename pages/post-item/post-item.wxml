@@ -1,0 +1,38 @@
+<view class="post-item">
+  <!-- 头像和用户名 -->
+  <view class="header">
+    <image class="avatar" src="{{avatar}}" />
+    <text class="username">{{username}}</text>
+  </view>
+
+  <!-- 发布的文字 -->
+  <view class="content">
+    <text>{{content}}</text>
+  </view>
+
+  <!-- 图片展示 -->
+  <view class="image-container" wx:for="{{images}}" wx:key="index">
+    <image class="post-image" src="{{item}}" mode="aspectFill" />
+  </view>
+
+  <!-- 视频展示 -->
+  <view class="video-container" wx:if="{{videoUrl}}">
+    <video class="post-video" src="{{videoUrl}}" controls></video>
+  </view>
+
+  <!-- 操作按钮（点赞、收藏、分享） -->
+  <view class="actions">
+    <view class="btn like" bindtap="toggleLike">
+      {{isLiked ? '取消点赞' : '点赞'}}
+    </view>
+    <view class="btn collect" bindtap="toggleCollect">
+      {{isCollected ? '取消收藏' : '收藏'}}
+    </view>
+    <view class="btn share" bindtap="sharePost">分享</view>
+  </view>
+
+  <!-- 底部时间 -->
+  <view class="time">
+    <text>{{time}}</text>
+  </view>
+</view>

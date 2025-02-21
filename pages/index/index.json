@@ -1,6 +1,7 @@
 {
-  "usingComponents": {}, 
-   
+  "usingComponents": {
+    "post-item": "/pages/post-item/post-item"
+  }, 
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#217dc9",
     "navigationBarTitleText": "",

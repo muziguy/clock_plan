@@ -84,10 +84,13 @@
   align-items: center;
   border-radius: 5px;
   height: 50px;
-  background-color: #fff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
+}
+
+.unselected {
+  background-color: #fff;
 }
 
 .day-cell:hover {
@@ -97,16 +100,16 @@
 
 /* 当前日期的样式 */
 .today {
-  background-color: #ffcc00;
-  color: white;
-  font-weight: bold;
-  border-radius: 50%;
+  font-weight: bold; /* 字体加粗 */
+  border-radius: 50%; /* 圆形 */
+  border: 2px dashed rgb(3, 252, 3); /* 设置虚线边框，颜色为番茄红 */
+  background-color: #f0f0f0;
 }
 
 /* 选中日期的样式 */
 .selected {
-  background-color: #007bff; /* 蓝色背景 */
-  color: white;
+  background-color: #2c2c2c !important; /* 蓝色背景 */
+  color: white !important;
   font-weight: bold;
   border-radius: 50%;
 }
@@ -139,6 +142,18 @@
   position: relative;
   background-size: cover; /* 让背景图片自适应容器 */
   background-position: top; /* 确保背景居中 */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 立体阴影 */
+  transition: box-shadow 0.3s ease; /* 过渡效果 */
+}
+
+/* 鼠标悬停时增强阴影 */
+.section:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* 更深的阴影 */
+}
+
+/* 按钮点击时的缩放动画 */
+.section:active, .task-item:active {
+  transform: scale(0.95);
 }
 
 /* 隐藏滚动条 */
@@ -268,19 +283,28 @@ button:hover {
   padding: 0;
 }
 
-.line1 {
-  border-bottom: 1px solid #1296db;  /* 设定线条的颜色和厚度 */
-  margin: 0;
-  padding: 0;
-  height: 0; /* 如果 line2 是空的或不需要高度，确保它没有额外的空间 */
-}
-
 .line2 {
-  border-top: 1px solid #1296db;  /* 设定线条的颜色和厚度 */
+  border-top: 1px solid #2c2c2c;  /* 设定线条的颜色和厚度 */
   margin: 0;
   padding: 0;
   height: 0; /* 如果 line2 是空的或不需要高度，确保它没有额外的空间 */
 }
 
+@font-face {
+  font-family: 'DFPWaWa-B5';
+  src: url('/fonts/xiaotu.ttf') format('truetye');
+}
 
+/* wxss 样式 */
+@keyframes shake {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.shake {
+  animation: shake 0.5s ease;
+}
 

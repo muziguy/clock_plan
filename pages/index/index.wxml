@@ -4,30 +4,30 @@
     <button bindtap="changeContent" data-content="content1" class="{{currentContent === 'content1' ? 'selected' : ''}}">
       <view class="button-content">
         <image src="{{isSelected ? '/image/icon1.png' : '/image/icon1_2.png'}}" class="icon"/> <!-- 图标1 -->
-        <text>多人专注</text>
+        <text>专注</text>
       </view>
     </button>
     
-    <button bindtap="changeContent" data-content="content2" class="{{currentContent === 'content2' ? 'selected' : ''}}">
+    <!-- <button bindtap="changeContent" data-content="content2" class="{{currentContent === 'content2' ? 'selected' : ''}}">
       <view class="button-content">
-        <image src="{{isSelected ? '/image/icon2.png' : '/image/icon2_2.png'}}" class="icon"/> <!-- 图标2 -->
-        <text>强制锁机</text>
+        <image src="{{isSelected ? '/image/icon2.png' : '/image/icon2_2.png'}}" class="icon"/> 
+        <text>记录</text>
       </view>
-    </button>
+    </button> -->
     
     <button bindtap="changeContent" data-content="content3" class="{{currentContent === 'content3' ? 'selected' : ''}}">
       <view class="button-content">
         <image src="{{isSelected ? '/image/icon3.png' : '/image/icon3_2.png'}}" class="icon"/> <!-- 图标3 -->
-        <text>趣味沉浸</text>
+        <text>备忘录</text>
       </view>
     </button>
     
-    <button bindtap="changeContent" data-content="content4" class="{{currentContent === 'content4' ? 'selected' : ''}}">
+    <!-- <button bindtap="changeContent" data-content="content4" class="{{currentContent === 'content4' ? 'selected' : ''}}">
       <view class="button-content">
-        <image src="{{isSelected ? '/image/icon4.png' : '/image/icon4_2.png'}}" class="icon"/> <!-- 图标4 -->
-        <text>时钟沉浸</text>
+        <image src="{{isSelected ? '/image/icon4.png' : '/image/icon4_2.png'}}" class="icon"/>
+        <text>沉浸</text>
       </view>
-    </button>
+    </button> -->
   </view>
 
   <!-- 根据选择的内容切换显示区域 -->
@@ -75,13 +75,90 @@
 			{{isRuning ? '退出': '休息 '}} </view>
 	</view>
   </view>
-  <view wx:if="{{currentContent === 'content2'}}" class="content">
-    <text>这是内容2</text>
+  <view wx:if="{{currentContent === 'content2'}}">
+    <view class="content content2">    
+      <view><text>这是内容2</text></view>
+      <!-- 跳转到发布页面的按钮 -->
+      <!-- <view bindtap="navigateToPostPage" class="fabu">跳转到记录页面</view> -->
+    </view>
+    <view>
+      <scroll-view class="scroll-container" scroll-y="true" style="height: 100vh;">
+        <!-- 多个 post-item 组件 -->
+        <post-item
+          avatar="https://www.pexels.com/zh-cn/photo/30655310/"
+          username="我"
+          content="这是一段发布的内容"
+          images='["https://www.pexels.com/zh-cn/photo/30755654/", "https://www.pexels.com/zh-cn/photo/30755654/"]'
+          videoUrl="https://ga.nasuyun.com/video?keyword=950718410400&kw=pexels&creative=101486527708&bd_vid=13443816958431851995"
+          time="2小时前"
+        />
+        <post-item
+          avatar="https://example.com/avatar.jpg"
+          username="我"
+          content="这是另一个分享内容"
+          images='["https://example.com/image3.jpg", "https://example.com/image4.jpg"]'
+          videoUrl="https://ga.nasuyun.com/video?keyword=950718410400&kw=pexels&creative=101486527708&bd_vid=13443816958431851995"
+          time="5小时前"
+        />
+        <view style="height: 30vh;"></view>
+        <!-- 你可以继续添加更多的 post-item 组件 -->
+      </scroll-view>
+    </view>
   </view>
   <view wx:if="{{currentContent === 'content3'}}" class="content">
-    <text>这是内容3</text>
+    <view>
+      <view class="memo-container">
+        <view class="memo-header">
+          <text class="memo-title">备忘录</text>
+          <view class="memo-new" bindtap="goToNewMemoPage">新建备忘录</view>
+        </view>
+
+        <view class="memo-list_view">
+          <scroll-view class="memo-list" scroll-y="true" style="height: 100%;">
+            <!-- 显示备忘录列表 -->
+            <block wx:for="{{memoList}}" wx:key="id">
+              <view class="memo-item" bindtap="goToEditMemoPage" data-id="{{item.id}}">
+                <view class="memo-item-title">{{item.title}}</view>
+                <view class="memo-item-info">
+                  <text class="memo-item-time">{{item.time}}</text>
+                  <text class="memo-item-length">{{item.length}}字</text>
+                </view>
+                <view class="memo-item-content">{{item.content}}</view>
+              </view>
+            </block>
+          </scroll-view>
+        </view>
+      </view>
+    </view>
   </view>
   <view wx:if="{{currentContent === 'content4'}}" class="content">
-    <text>这是内容4</text>
+    <view class="immersive-study-container">
+      <!-- 背景图片 -->
+      <image class="background-image" src="https://example.com/background.jpg" mode="aspectFill" />
+
+      <!-- 顶部信息：学习进度 -->
+      <view class="progress-bar-container">
+        <text class="progress-text">学习进度</text>
+        <progress class="progress-bar" percent="{{progress}}" show-info />
+      </view>
+
+      <!-- 学习内容 -->
+      <view class="study-content">
+        <text class="content-title">{{studyTitle}}</text>
+        <text class="content-body">{{studyContent}}</text>
+      </view>
+
+      <!-- 笔记输入框 -->
+      <view class="note-container">
+        <textarea class="note-input" placeholder="记录你的笔记..." bindinput="onNoteInput" />
+        <view class="save-note-button" bindtap="saveNote">保存笔记</view>
+      </view>
+
+      <!-- 按钮：开始/继续学习 -->
+      <view class="action-buttons">
+        <view class="start-button" bindtap="startLearning">开始学习</view>
+        <view class="continue-button" bindtap="continueLearning">继续学习</view>
+      </view>
+    </view>
   </view>
 </view>

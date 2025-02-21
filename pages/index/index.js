@@ -1,5 +1,4 @@
 const util = require('../../utils/util.js')
-const templateId = 'OFEAr11jqhgpU_imwX6A7xTy2ckcxRMNa3kE8-d7CQI'
 const defaultLogName = {
   work: '工作',
   rest: '休息'
@@ -14,8 +13,8 @@ const initDeg = {
 }
 
 Page({
-
   data: {
+    memoList: [], // 储存备忘录列表
     remainTimeText: '',
     timerType: 'work',
     log: {},
@@ -26,6 +25,13 @@ Page({
     vibison: '',
     currentContent: 'content1', // 默认显示内容1
       },
+
+  // 页面跳转方法
+  navigateToPostPage: function() {
+    wx.navigateTo({
+      url: '/pages/post/post', // 跳转到发布页面
+    });
+  },
   // 切换内容结构的函数
   changeContent: function (e) {
     // 获取点击的按钮对应的内容标识
@@ -38,19 +44,86 @@ Page({
     });
   },
   onLoad: function (options) {
+    this.loadMemoList();
+  },
+  // 加载备忘录列表，按时间排序
+  loadMemoList: function() {
+    const app = getApp();
+    this.setData({
+      memoList: app.globalData.memoList
+    });
+    // let memoList = wx.getStorageSync('memoList') || [];
+    let memoList = this.data.memoList
+    console.log(memoList)
+    // 对备忘录按创建时间进行排序（最近的排前面）
+    memoList.sort((a, b) => b.timestamp - a.timestamp);
+
+    // 格式化时间显示
+    memoList = memoList.map(item => {
+      item.time = this.formatTime(item.timestamp);
+      item.length = item.content.length;
+      return item;
+    });
+
+    this.setData({
+      memoList: memoList
+    });
+  },
+
+  // 跳转到新建备忘录页面
+  goToNewMemoPage: function() {
+    wx.navigateTo({
+      url: '/pages/memo/new-memo/new-memo'
+    });
+  },
+
+  // 跳转到编辑备忘录页面
+  goToEditMemoPage: function(e) {
+    const memoId = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: `/pages/memo/edit-memo/edit-memo?id=${memoId}`
+    });
+  },
+
+  // 格式化时间显示
+  formatTime: function(timestamp) {
+    const now = new Date();
+    const memoTime = new Date(timestamp);
+    const diff = now - memoTime;
+
+    const today = now.toDateString();
+    const memoDate = memoTime.toDateString();
+
+    if (memoDate !== today) {
+      return `${memoTime.getFullYear()}-${memoTime.getMonth() + 1}-${memoTime.getDate()}`;
+    }
+
+    if (diff < 60 * 1000) {
+      return '刚刚创建';
+    }
+
+    const minutes = Math.floor(diff / (1000 * 60));
+    return `${minutes}分钟前`;
   },
 
   onShow: function() {
-    if (this.data.isRuning) return
-    let workTime = util.formatTime(wx.getStorageSync('workTime'), 'HH')
-    let restTime = util.formatTime(wx.getStorageSync('restTime'), 'HH')
+    // 获取全局数据并更新页面
+    this.loadMemoList();
+    // 如果正在运行，则直接返回
+    if (this.data.isRuning) return;
+  
+    // 获取本地存储的工作时间和休息时间
+    let workTime = util.formatTime(wx.getStorageSync('workTime'), 'HH');
+    let restTime = util.formatTime(wx.getStorageSync('restTime'), 'HH');
+  
+    // 更新页面数据
     this.setData({
       workTime: workTime,
       restTime: restTime,
       remainTimeText: workTime + ':00'
-    })
+    });
   },
-
+  
   startTimer: function(e) {
     let startTime = Date.now()
     let startTimeShow = this.getTime() //（安卓与iOS时间显示不一致）转换时间为统一格式显示。
@@ -223,6 +296,5 @@ if(vibison){     //振动功能的开闭
       } else {
         return obj;
       }
-    }
-
-})
+    },
+});

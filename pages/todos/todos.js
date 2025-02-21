@@ -11,7 +11,6 @@ Page({
     wx.setNavigationBarTitle({
       title: '待办清单'
     })
-
   },
 
   save: function () {

@@ -7,9 +7,9 @@
   <block wx:if="{{ todos.length }}">
     <view class="footer">
       <!-- <text class="btn" bindtap="toggleAllHandle">✔ 全选</text> -->
-      <image class="btn" bindtap="toggleAllHandle" src="../../image/allselect.png"/>
+      <image class="btn" bindtap="toggleAllHandle" src="/image/allselect.png"/>
       <text class="foottext" wx:if="{{ leftCount }}">剩 {{ leftCount }} {{ leftCount === 1 ? '个' : '个' }}任务待完成</text>
-      <image class="btn" wx:if="{{ todos.length > leftCount }}" bindtap="clearCompletedHandle" src="../../image/delete.png"/>
+      <image class="btn" wx:if="{{ todos.length > leftCount }}" bindtap="clearCompletedHandle" src="/image/delete.png"/>
       <!-- <text class="btn" wx:if="{{ todos.length > leftCount }}" bindtap="clearCompletedHandle">✘ 清除</text> -->
     </view>
     <view class="todos">

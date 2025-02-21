@@ -1,5 +1,8 @@
-// const Tucao = requirePlugin('tucao').default;
-const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
+// // 从插件 'tucao' 中引入默认导出的模块，一般用于小程序里引入插件 
+// const Tucao = requirePlugin('tucao').default; 
+// // 定义一个默认的头像 URL 
+const defaultAvatarUrl = 'https://mmbiz.q'; 
+
 Page({
   data: {
     userInfo: {},
@@ -13,11 +16,13 @@ Page({
     topTips: false,
     tophide: false,
     musicIndex: 0,
-    music: ["静音", "林间", "雨声", "田野"],
+    music: ["静音", "雨声", "林间", "轻快", "悲伤", "忧郁"],
     musicUrl:[
-      'http://antiserver.kuwo.cn/anti.s?useless=/resource/&format=mp3&rid=MUSIC_55670028&response=res&type=convert_url&', 
-      'http://antiserver.kuwo.cn/anti.s?useless=/resource/&format=mp3&rid=MUSIC_89130558&response=res&type=convert_url&',
-      'http://antiserver.kuwo.cn/anti.s?useless=/resource/&format=mp3&rid=MUSIC_147235538&response=res&type=convert_url&'
+      'https://music.163.com/song/media/outer/url?id=430685732', 
+      'https://music.163.com/song/media/outer/url?id=22707008',
+      'https://music.163.com/song/media/outer/url?id=16846091',
+      'https://music.163.com/song/media/outer/url?id=5308028',
+      'https://music.163.com/song/media/outer/url?id=493478198'
     ],
     musicCoverUrl:'https://s3.ax1x.com/2021/03/12/6NLUV1.jpg',
     extraData: {
@@ -26,7 +31,7 @@ Page({
         clientInfo: `iPhone OS 10.3.1 / 3.2.0.43 / 0`,
         imei: '7280BECE2FC29544172A2B858E9E90D0'
       }
-    }
+    },
   },
   onLoad(){
     if (wx.getUserProfile) {
@@ -38,7 +43,7 @@ Page({
 
   onShow() {
     wx.setNavigationBarTitle({
-      title: '专注时钟'
+      title: '计划时钟'
     })
     wx.setNavigationBarColor({
       backgroundColor: '#ffffff',
@@ -77,40 +82,27 @@ Page({
     });
   },
 
-  // changeWorkTime: function (e) {
-  //   wx.setStorage({
-  //     key: 'workTime',
-  //     data: e.detail.value
-  //   })
-  // },
-  // changeRestTime: function (e) {
-  //   wx.setStorage({
-  //     key: 'restTime',
-  //     data: e.detail.value
-  //   })
-  // },
-
   changevib: function (e) { //震动控制
     wx.setStorage({
       key: 'vibison',
       data: e.detail.value
     })
-if(e.detail.value==true){
-  this.setData({
-    topTips: true
-});
-setTimeout(() => {
-  this.setData({
-    tophide: true
-});
-setTimeout(() => {
-    this.setData({
-        topTips: false,
-        tophide: false,
+    if(e.detail.value==true){
+      this.setData({
+        topTips: true
     });
-}, 300);
-}, 1200);
-}
+    setTimeout(() => {
+      this.setData({
+        tophide: true
+    });
+    setTimeout(() => {
+        this.setData({
+            topTips: false,
+            tophide: false,
+        });
+    }, 300);
+    }, 1200);
+    }
   },
 
   gotucao: function (e) {
@@ -130,7 +122,7 @@ setTimeout(() => {
       wx.stopBackgroundAudio()
       const music1 = wx.getBackgroundAudioManager()
       music1.title = this.data.music[1]
-      music1.singer = '专注时钟'
+      music1.singer = '计划时钟'
       music1.coverImgUrl = this.data.musicCoverUrl
       music1.src = this.data.musicUrl[0]    // 设置了 src 之后会自动播放
       music1.onEnded(()=>{music1.src = this.data.musicUrl[0]})  //监听播放完毕，重新赋地址，单曲循环
@@ -138,7 +130,7 @@ setTimeout(() => {
       wx.stopBackgroundAudio()
       const music2 = wx.getBackgroundAudioManager()
       music2.title = this.data.music[2]
-      music2.singer = '专注时钟'
+      music2.singer = '计划时钟'
       music2.coverImgUrl = this.data.musicCoverUrl
       music2.src =this.data.musicUrl[1]
       music2.onEnded(()=>{music2.src = this.data.musicUrl[2]})
@@ -146,7 +138,7 @@ setTimeout(() => {
       wx.stopBackgroundAudio()
       const music3 = wx.getBackgroundAudioManager()
       music3.title = this.data.music[3]
-      music3.singer = '专注时钟'
+      music3.singer = '计划时钟'
       music3.coverImgUrl = this.data.musicCoverUrl
       music3.src = this.data.musicUrl[2]
       music3.onEnded(()=>{music3.src = this.data.musicUrl[2]})
@@ -174,6 +166,4 @@ setTimeout(() => {
       imageUrl: '/image/about.png'
     }
   }
-
-
 })

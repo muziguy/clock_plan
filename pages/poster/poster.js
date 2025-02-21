@@ -97,18 +97,18 @@ Page({
     let sys=res.system;
     let version=res.SDKVersion;
 
-    // wx.getSetting({
-    //   success(res) {
-    //     if (!res.authSetting['writePhotosAlbum']) {
-    //       wx.authorize({
-    //         scope: 'writePhotosAlbum',
-    //         success () {
-    //           // 用户已经同意小程序使用写相册功能，后续调用接口不会弹窗询问
-    //         }
-    //       })
-    //     }
-    //   }
-    // })
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['writePhotosAlbum']) {
+          wx.authorize({
+            scope: 'writePhotosAlbum',
+            success () {
+              // 用户已经同意小程序使用写相册功能，后续调用接口不会弹窗询问
+            }
+          })
+        }
+      }
+    })
 
     if(sys.indexOf("Android")>-1 && this.testVersion(version)){
       wx.showShareMenu({

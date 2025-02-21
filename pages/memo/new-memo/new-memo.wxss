@@ -1,0 +1,52 @@
+.new-memo-container {
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.new-memo-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.new-memo-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+.new-memo-input,
+.new-memo-textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.new-memo-textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  background-color: #fff;
+  box-sizing: border-box;
+  outline: none;
+  height: 200px;
+  resize: none;
+}
+
+.new-memo-save {
+  padding: 12px 25px;
+  font-size: 18px;
+  background-color: #2c2c2c;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}

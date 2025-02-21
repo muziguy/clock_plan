@@ -1,0 +1,11 @@
+<view class="new-memo-container">
+  <view class="new-memo-header">
+    <text class="new-memo-title">新建备忘录</text>
+  </view>
+
+  <view class="new-memo-input"><input placeholder="请输入标题" bindinput="onTitleInput" value="{{title}}" /></view>
+  <view class="new-memo-textarea"><textarea placeholder="请输入内容" bindinput="onContentInput" value="{{content}}" />
+  </view>
+
+  <button class="new-memo-save" bindtap="saveMemo">保存备忘录</button>
+</view>

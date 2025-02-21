@@ -102,3 +102,6 @@ background-color:#ededed;
   /* background-color: rgba(22, 36, 236, 0.041); */
  
 }
+.adContainer {
+  width: 100%;
+}
